@@ -4,47 +4,103 @@ using UnityEngine;
 
 public class LayoutManager : MonoBehaviour
 {
-    public GameObject columnPrefab;
+    int gridSideLenght;
+    int columnsPerSide;
 
-    public Transform columnParent;
+    float columnSize;
+    float columnY;
+
+    Vector3 currentColumnPosition;
 
     List<GameObject> columns = new List<GameObject>();
+    List<GameObject> destroyableColumns = new List<GameObject>();
+
+    public int destroyableColumnsAmount;
+
+    public GameObject columnPrefab;
+    public GameObject destroyableColumnPrefab;
+
+    public Transform columnParent;
+    public Transform destroyableColumnParent;
 
     void Start()
     {
+        gridSideLenght = 23;
+        columnsPerSide = gridSideLenght / 2;
+
+        columnSize = 1f;
+        columnY = 1f;
+
         InitiateColumns();
+        InitiateDestroyableColumns();
     }
 
     void InitiateColumns()
     {
-        int columnsPerSide = 11;
-
-        float columnSize = 1;
         float leftMostColumnX = -10f;
-        float columnY = 1f;
         float currentRowZ = 10f;
 
-        Vector3 currentColumnPosition = new Vector3(leftMostColumnX, columnY, currentRowZ);
+        currentColumnPosition = new Vector3(leftMostColumnX, columnY, currentRowZ);
 
         while (columns.Count < columnsPerSide * columnsPerSide)
         {
-            if (columns.Count == 0)
-            {
-                columns.Add(Instantiate(columnPrefab, currentColumnPosition, Quaternion.identity, columnParent));
+            columns.Add(Instantiate(columnPrefab, currentColumnPosition, Quaternion.identity, columnParent));
+
+            if (columns.Count % columnsPerSide != 0)
                 currentColumnPosition.x += columnSize * 2;
-            }
             else
             {
-                columns.Add(Instantiate(columnPrefab, currentColumnPosition, Quaternion.identity, columnParent));
+                currentColumnPosition.x = leftMostColumnX;
+                currentColumnPosition.z -= columnSize * 2;
+            }
+        }
+    }
 
-                if (columns.Count % columnsPerSide != 0)
-                    currentColumnPosition.x += columnSize * 2;
+    void InitiateDestroyableColumns()
+    {
+        float firstColumnPositionXZ = -11f;
+
+        bool overColumn;
+        bool positionOccupied = false;
+
+        Vector2 gridPosition;
+
+        List<Vector2> occupiedGridPositions = new List<Vector2>();
+
+        while (destroyableColumns.Count < destroyableColumnsAmount)
+        {
+            do
+            {
+                gridPosition.x = Random.Range(0, gridSideLenght - 1);
+                gridPosition.y = Random.Range(0, gridSideLenght - 1);
+
+                if (gridPosition.x % 2 != 0 && gridPosition.y % 2 != 0)
+                    overColumn = true;
                 else
+                    overColumn = false;
+
+                if (occupiedGridPositions.Count > 0)
                 {
-                    currentColumnPosition.x = leftMostColumnX;
-                    currentColumnPosition.z -= columnSize * 2;
+                    foreach (Vector2 position in occupiedGridPositions)
+                    {
+                        if (gridPosition == position)
+                        {
+                            positionOccupied = true;
+                            break;
+                        }
+                        else
+                            positionOccupied = false;
+                    }
                 }
             }
+            while (overColumn || positionOccupied);
+
+            occupiedGridPositions.Add(gridPosition);
+
+            currentColumnPosition.x = firstColumnPositionXZ + columnSize * gridPosition.x;
+            currentColumnPosition.z = firstColumnPositionXZ + columnSize * gridPosition.y;
+
+            destroyableColumns.Add(Instantiate(destroyableColumnPrefab, currentColumnPosition, Quaternion.identity, destroyableColumnParent));
         }
     }
 }
