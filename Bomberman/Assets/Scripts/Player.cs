@@ -64,7 +64,10 @@ public class Player : MonoBehaviour
 
     void PlaceBomb()
     {
-        Vector3 position = new Vector3(transform.position.x, 0.75f, transform.position.z);
+        float positionX = Mathf.Round(transform.position.x );
+        float positionZ = Mathf.Round(transform.position.z );
+
+        Vector3 position = new Vector3(positionX, Bomb.positionY, positionZ);
 
         Instantiate(bombPrefab, position, Quaternion.identity);
         UpdatePlacedBombs(true);
