@@ -6,16 +6,15 @@ public class LayoutManager : MonoBehaviour
 {
     int gridSideLenght;
     int columnsPerSide;
+    int destroyableColumnsAmount;
 
     float columnSize;
-    float columnY;
+    float columnPositionY;
 
-    Vector3 currentColumnPosition;
+    List<GameObject> columns;
+    List<GameObject> destroyableColumns;
 
-    List<GameObject> columns = new List<GameObject>();
-    List<GameObject> destroyableColumns = new List<GameObject>();
-
-    public int destroyableColumnsAmount;
+    public GameManager gameManager;
 
     public GameObject columnPrefab;
     public GameObject destroyableColumnPrefab;
@@ -23,24 +22,30 @@ public class LayoutManager : MonoBehaviour
     public Transform columnParent;
     public Transform destroyableColumnParent;
 
-    void Start()
+    void Awake()
     {
-        gridSideLenght = 23;
+        gridSideLenght = gameManager.gridSideLenght;
         columnsPerSide = gridSideLenght / 2;
+        destroyableColumnsAmount = 100;
 
         columnSize = 1f;
-        columnY = 1f;
+        columnPositionY = 1f;
 
-        InitiateColumns();
-        InitiateDestroyableColumns();
+        columns = new List<GameObject>();
+        destroyableColumns = new List<GameObject>();
+
+        GameManager.initialize += InitializeColumns;
+        GameManager.initialize += InitializeDestroyableColumns;
     }
 
-    void InitiateColumns()
+    void InitializeColumns()
     {
         float leftMostColumnX = -10f;
         float currentRowZ = 10f;
 
-        currentColumnPosition = new Vector3(leftMostColumnX, columnY, currentRowZ);
+        Vector3 currentColumnPosition;
+
+        currentColumnPosition = new Vector3(leftMostColumnX, columnPositionY, currentRowZ);
 
         while (columns.Count < columnsPerSide * columnsPerSide)
         {
@@ -56,49 +61,15 @@ public class LayoutManager : MonoBehaviour
         }
     }
 
-    void InitiateDestroyableColumns()
+    void InitializeDestroyableColumns()
     {
-        float firstColumnPositionXZ = -11f;
+        int maxColumnAmount = gridSideLenght * gridSideLenght - columnsPerSide * columnsPerSide;
 
-        bool overColumn;
-        bool positionOccupied = false;
+        Vector3 currentColumnPosition;
 
-        Vector2 gridPosition;
-
-        List<Vector2> occupiedGridPositions = new List<Vector2>();
-
-        while (destroyableColumns.Count < destroyableColumnsAmount)
+        while (destroyableColumns.Count < destroyableColumnsAmount && destroyableColumns.Count < maxColumnAmount)
         {
-            do
-            {
-                gridPosition.x = Random.Range(0, gridSideLenght - 1);
-                gridPosition.y = Random.Range(0, gridSideLenght - 1);
-
-                if (gridPosition.x % 2 != 0 && gridPosition.y % 2 != 0)
-                    overColumn = true;
-                else
-                    overColumn = false;
-
-                if (occupiedGridPositions.Count > 0)
-                {
-                    foreach (Vector2 position in occupiedGridPositions)
-                    {
-                        if (gridPosition == position)
-                        {
-                            positionOccupied = true;
-                            break;
-                        }
-                        else
-                            positionOccupied = false;
-                    }
-                }
-            }
-            while (overColumn || positionOccupied);
-
-            occupiedGridPositions.Add(gridPosition);
-
-            currentColumnPosition.x = firstColumnPositionXZ + columnSize * gridPosition.x;
-            currentColumnPosition.z = firstColumnPositionXZ + columnSize * gridPosition.y;
+            currentColumnPosition = gameManager.GetRandomPositionInGrid(columnPositionY);
 
             destroyableColumns.Add(Instantiate(destroyableColumnPrefab, currentColumnPosition, Quaternion.identity, destroyableColumnParent));
         }
