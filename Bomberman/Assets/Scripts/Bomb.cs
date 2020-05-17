@@ -22,6 +22,12 @@ public class Bomb : MonoBehaviour
         onExplosion += Explode;
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+            this.gameObject.GetComponent<SphereCollider>().isTrigger = false;
+    }
+
     void Update()
     {
         explosionTimer += Time.deltaTime;
@@ -38,11 +44,5 @@ public class Bomb : MonoBehaviour
 
         onExplosion -= Explode;
         Destroy(this.gameObject);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-            this.gameObject.GetComponent<SphereCollider>().isTrigger = false;
     }
 }

@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
         initialPosition = new Vector3(0f, positionY, 0f);
 
         Explosion.onDamageDealtToPlayer += OnDamageReceived;
+        Enemy.onDamageDealtToPlayer += OnDamageReceived;
     }
 
     void FixedUpdate()

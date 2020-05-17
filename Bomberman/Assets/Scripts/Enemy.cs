@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -15,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     EnemyManager enemyManager;
 
+    public static event Action onDamageDealtToPlayer;
+
     void Start()
     {
         canTurn = true;
@@ -25,6 +26,12 @@ public class Enemy : MonoBehaviour
         gridPosition = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.z));
 
         enemyManager = GetComponentInParent<EnemyManager>();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            onDamageDealtToPlayer();
     }
 
     void Update()
@@ -125,7 +132,7 @@ public class Enemy : MonoBehaviour
 
         float[] eulerRotationMultipliers = { 1, 3 };
 
-        rotationY = eulerRotationBase * eulerRotationMultipliers[Random.Range(0, eulerRotationMultipliers.Length)];
+        rotationY = eulerRotationBase * eulerRotationMultipliers[UnityEngine.Random.Range(0, eulerRotationMultipliers.Length)];
 
         return new Vector3(0, rotationY, 0);
     }
@@ -137,7 +144,7 @@ public class Enemy : MonoBehaviour
 
         float[] eulerRotationMultipliers = { 0, 1, 3 };
 
-        rotationY = eulerRotationBase * eulerRotationMultipliers[Random.Range(0, eulerRotationMultipliers.Length)];
+        rotationY = eulerRotationBase * eulerRotationMultipliers[UnityEngine.Random.Range(0, eulerRotationMultipliers.Length)];
 
         return new Vector3(0, rotationY, 0);
     }
