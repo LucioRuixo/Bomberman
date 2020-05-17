@@ -8,8 +8,7 @@ public class LayoutManager : MonoBehaviour
     {
         Empty,
         Column,
-        DestroyableColumn,
-        ExplosionColumn
+        DestroyableColumn
     }
 
     int columnsPerSide;

@@ -58,8 +58,6 @@ public class Player : MonoBehaviour
 
         if (transform.rotation != Quaternion.identity)
             transform.rotation = Quaternion.identity;
-
-        Debug.Log(lives);
     }
 
     void CheckInput()
