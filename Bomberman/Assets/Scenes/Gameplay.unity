@@ -857,7 +857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b3a87586d0506419c22147dcef584b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSideLenght: 0
+  layoutManager: {fileID: 549438826}
   player: {fileID: 793125225}
 --- !u!4 &887273703
 Transform:

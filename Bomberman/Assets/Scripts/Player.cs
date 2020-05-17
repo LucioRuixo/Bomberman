@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     int placedBombs;
 
     float movementSpeed;
+    float bombPositionY;
 
     Vector3 movement;
 
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
         placedBombs = 0;
 
         movementSpeed = 0.05f;
+        bombPositionY = 0.75f;
 
         rigidbody = GetComponent<Rigidbody>();
 
@@ -64,10 +66,10 @@ public class Player : MonoBehaviour
 
     void PlaceBomb()
     {
-        float positionX = Mathf.Round(transform.position.x );
-        float positionZ = Mathf.Round(transform.position.z );
+        float positionX = Mathf.Round(transform.position.x);
+        float positionZ = Mathf.Round(transform.position.z);
 
-        Vector3 position = new Vector3(positionX, Bomb.positionY, positionZ);
+        Vector3 position = new Vector3(positionX, bombPositionY, positionZ);
 
         Instantiate(bombPrefab, position, Quaternion.identity);
         UpdatePlacedBombs(true);
