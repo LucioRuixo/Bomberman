@@ -480,6 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c698fb6693ae6c4580819814dfa97ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstCellPositionX: 0
+  firstCellPositionZ: 0
   gameManager: {fileID: 887273702}
   columnPrefab: {fileID: 3563532790830038886, guid: 461c98e9750f28341a99a99c3d436589,
     type: 3}
@@ -970,6 +972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 6, z: -2.5}
+  rotation: {x: 70, y: 0, z: 0}
   pivot: {fileID: 793125224}
 --- !u!1 &1134761821
 GameObject:

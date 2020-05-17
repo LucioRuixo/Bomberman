@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    public Vector3 offset;
+    public Vector3 positionOffset;
+    public Vector3 rotation;
 
     public Transform pivot;
 
-    void Start()
-    {
-        transform.position = pivot.position + offset;
-    }
-
     void Update()
     {
-        transform.position = pivot.position + offset;
+        transform.position = pivot.position + positionOffset;
+        transform.rotation = Quaternion.Euler(rotation);
     }
 }
