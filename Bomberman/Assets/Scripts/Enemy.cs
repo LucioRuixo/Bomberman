@@ -148,4 +148,11 @@ public class Enemy : MonoBehaviour
 
         return new Vector3(0, rotationY, 0);
     }
+
+    public void OnDamageReceived()
+    {
+        Explosion.onDamageDealtToEnemy -= OnDamageReceived;
+
+        Destroy(this.gameObject);
+    }
 }

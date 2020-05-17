@@ -14,9 +14,11 @@ public class Explosion : MonoBehaviour
 
     GameObject explosionColumnPrefab;
 
-    [HideInInspector] public bool playerInsideExplosionArea;
+    [HideInInspector] public bool shouldDealDamageToPlayer;
+    [HideInInspector] public bool shouldDealDamageToEnemy;
 
     public static event Action onDamageDealtToPlayer;
+    public static event Action onDamageDealtToEnemy;
 
     void Start()
     {
@@ -29,7 +31,7 @@ public class Explosion : MonoBehaviour
 
         player = GameObject.Find("Player").GetComponent<Player>();
 
-        playerInsideExplosionArea = false;
+        shouldDealDamageToPlayer = false;
 
         InitializeExplosionColumns();
     }
@@ -41,10 +43,16 @@ public class Explosion : MonoBehaviour
         if (explosionTimer >= explosionTimerTarget)
             Destroy(this.gameObject);
 
-        if (playerInsideExplosionArea && !damageDealtToPlayer)
+        if (shouldDealDamageToPlayer && !damageDealtToPlayer)
         {
             onDamageDealtToPlayer();
             damageDealtToPlayer = true;
+        }
+
+        if (shouldDealDamageToEnemy)
+        {
+            onDamageDealtToEnemy();
+            shouldDealDamageToEnemy = false;
         }
     }
 

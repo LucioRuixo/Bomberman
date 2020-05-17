@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704c84caecde2704cb94de39bf520eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAmount: 1
+  enemyAmount: 10
   layoutManager: {fileID: 549438826}
   enemyPrefab: {fileID: 1423596948669228854, guid: 8e2396a38d5cf444e92828b8f7fd393f,
     type: 3}

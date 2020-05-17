@@ -6,7 +6,14 @@ public class ExplosionColumn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            GetComponentInParent<Explosion>().playerInsideExplosionArea = true;
+            GetComponentInParent<Explosion>().shouldDealDamageToPlayer = true;
+        }
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Explosion.onDamageDealtToEnemy += other.GetComponent<Enemy>().OnDamageReceived;
+
+            GetComponentInParent<Explosion>().shouldDealDamageToEnemy = true;
         }
     }
 }
