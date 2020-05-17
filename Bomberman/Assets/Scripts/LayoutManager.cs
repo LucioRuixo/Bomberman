@@ -120,14 +120,22 @@ public class LayoutManager : MonoBehaviour
         return position;
     }
 
-    public void CheckColumnExplosion(Vector3 explosionPosition)
+    public void CheckColumnExplosion(Vector2Int left, Vector2Int right, Vector2Int up, Vector2Int down)
     {
-        grid[(int)explosionPosition.x, (int)-explosionPosition.z] = cellStates.Empty;
+        Vector3 leftPosition = new Vector3(left.x, columnPositionY, left.y);
+        Vector3 rightPosition = new Vector3(right.x, columnPositionY, right.y);
+        Vector3 upPosition = new Vector3(up.x, columnPositionY, up.y);
+        Vector3 downPosition = new Vector3(down.x, columnPositionY, down.y);
 
         foreach (Transform child in destroyableColumnParent.GetComponentInChildren<Transform>())
         {
-            if (child.position == explosionPosition)
+            if (child.position == leftPosition || child.position == rightPosition ||
+                child.position == upPosition || child.position == downPosition)
+            {
+                grid[(int)child.position.x, (int)-child.position.z] = cellStates.Empty;
+
                 Destroy(child.gameObject);
+            }
         }
     }
 }

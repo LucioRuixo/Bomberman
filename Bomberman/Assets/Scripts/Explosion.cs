@@ -35,11 +35,15 @@ public class Explosion : MonoBehaviour
 
     void InitializeExplosionColumns()
     {
+        bool leftColumnLineNotCompleted = true;
+        bool rightColumnLineNotCompleted = true;
+        bool upColumnLineNotCompleted = true;
+        bool downColumnLineNotCompleted = true;
+
         Vector2Int left;
         Vector2Int right;
         Vector2Int up;
         Vector2Int down;
-
 
         Instantiate(layoutManager.explosionColumnPrefab, transform.position, Quaternion.identity, transform);
 
@@ -50,44 +54,54 @@ public class Explosion : MonoBehaviour
             up = new Vector2Int((int)transform.position.x, (int)transform.position.z + i);
             down = new Vector2Int((int)transform.position.x, (int)transform.position.z - i);
 
-            InitializeOuterColumns(left);
-            InitializeOuterColumns(right);
-            InitializeOuterColumns(up);
-            InitializeOuterColumns(down);
+            if (leftColumnLineNotCompleted)
+                leftColumnLineNotCompleted = InitializeOuterColumn(left);
+            else
+                left = Vector2Int.zero;
+
+            if (rightColumnLineNotCompleted)
+                rightColumnLineNotCompleted = InitializeOuterColumn(right);
+            else
+                right = Vector2Int.zero;
+
+            if (upColumnLineNotCompleted)
+                upColumnLineNotCompleted = InitializeOuterColumn(up);
+            else
+                up = Vector2Int.zero;
+
+            if (downColumnLineNotCompleted)
+                downColumnLineNotCompleted = InitializeOuterColumn(down);
+            else
+                down = Vector2Int.zero;
+
+            layoutManager.CheckColumnExplosion(left, right, up, down);
         }
     }
 
-    void InitializeOuterColumns(Vector2Int direction)
+    bool InitializeOuterColumn(Vector2Int direction)
     {
         Vector3 position;
         
         if (direction.x != transform.position.x)
         {
-            if (direction.x >= 0 && direction.x <= layoutManager.gridSideLenght - 1)
-            {
-                if (layoutManager.grid[direction.x, -direction.y] != LayoutManager.cellStates.Column)
-                {
-                    position = new Vector3(direction.x, layoutManager.columnPositionY, direction.y);
-
-                    Instantiate(layoutManager.explosionColumnPrefab, position, Quaternion.identity, transform);
-
-                    layoutManager.CheckColumnExplosion(new Vector3(direction.x, layoutManager.columnPositionY, direction.y));
-                }
-            }
+            if (direction.x < 0 || direction.x > layoutManager.gridSideLenght - 1)
+                return false;
         }
         else
         {
-            if (-direction.y >= 0 && -direction.y <= layoutManager.gridSideLenght - 1)
-            {
-                if (layoutManager.grid[direction.x, -direction.y] != LayoutManager.cellStates.Column)
-                {
-                    position = new Vector3(direction.x, layoutManager.columnPositionY, direction.y);
+            if (-direction.y < 0 || -direction.y > layoutManager.gridSideLenght - 1)
+                return false;
+        }
 
-                    Instantiate(layoutManager.explosionColumnPrefab, position, Quaternion.identity, transform);
+        if (layoutManager.grid[direction.x, -direction.y] == LayoutManager.cellStates.Column)
+            return false;
+        else
+        {
+            position = new Vector3(direction.x, layoutManager.columnPositionY, direction.y);
 
-                    layoutManager.CheckColumnExplosion(new Vector3(direction.x, layoutManager.columnPositionY, direction.y));
-                }
-            }
+            Instantiate(layoutManager.explosionColumnPrefab, position, Quaternion.identity, transform);
+
+            return true;
         }
     }
 }

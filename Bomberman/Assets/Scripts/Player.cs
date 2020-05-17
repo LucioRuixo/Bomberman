@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         maxPlaceableBombs = 1;
-        bombRange = 3;
+        bombRange = 1;
 
         movementSpeed = 0.05f;
         bombPositionY = 0.75f;
