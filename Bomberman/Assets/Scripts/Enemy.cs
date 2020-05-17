@@ -56,6 +56,7 @@ public class Enemy : MonoBehaviour
         bool wallInProximity = false;
         bool columnInProximity = false;
         bool destroyableColumnInProximity = false;
+        bool enemyInProximity = false;
 
         Vector3 rotation;
 
@@ -70,15 +71,21 @@ public class Enemy : MonoBehaviour
         if (raycastHit.transform != null)
         {
             wallInProximity = raycastHit.transform.gameObject.CompareTag("Wall");
-
             columnInProximity = raycastHit.transform.gameObject.CompareTag("Column");
-
             destroyableColumnInProximity = raycastHit.transform.gameObject.CompareTag("DestroyableColumn");
+            enemyInProximity = raycastHit.transform.gameObject.CompareTag("Enemy");
         }
 
         if (wallInProximity || columnInProximity || destroyableColumnInProximity)
         {
             rotation = GetSidewaysTurn();
+
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + rotation);
+        }
+
+        if (enemyInProximity)
+        {
+            rotation = GetCompleteTurn();
 
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + rotation);
         }
@@ -135,6 +142,11 @@ public class Enemy : MonoBehaviour
         rotationY = eulerRotationBase * eulerRotationMultipliers[UnityEngine.Random.Range(0, eulerRotationMultipliers.Length)];
 
         return new Vector3(0, rotationY, 0);
+    }
+    
+    Vector3 GetCompleteTurn()
+    {
+        return new Vector3(0, 180f, 0);
     }
 
     public static Vector3 GetRandomDirection()
