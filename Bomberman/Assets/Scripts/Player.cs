@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    int placeableBombsAmount;
-    int placedBombs;
+    int maxPlaceableBombs;
 
     float movementSpeed;
     float bombPositionY;
@@ -14,23 +13,27 @@ public class Player : MonoBehaviour
 
     new Rigidbody rigidbody;
 
+    List<GameObject> placedBombs;
+
+    [HideInInspector] public int bombRange;
+
     [HideInInspector] public float positionY;
 
     public GameObject bombPrefab;
 
     void Start()
     {
-        placeableBombsAmount = 1;
-        placedBombs = 0;
+        maxPlaceableBombs = 1;
+        bombRange = 1;
 
         movementSpeed = 0.05f;
         bombPositionY = 0.75f;
 
         rigidbody = GetComponent<Rigidbody>();
 
-        positionY = 1f;
+        placedBombs = new List<GameObject>();
 
-        Bomb.onExplotion += UpdatePlacedBombs;
+        positionY = 1f;
     }
 
     void FixedUpdate()
@@ -60,7 +63,7 @@ public class Player : MonoBehaviour
         if (Input.GetButton("Vertical"))
             movement.z += Input.GetAxisRaw("Vertical") * movementSpeed;
 
-        if (Input.GetButtonDown("Place Bomb") && placedBombs < placeableBombsAmount)
+        if (Input.GetButtonDown("Place Bomb") && placedBombs.Count < maxPlaceableBombs)
             PlaceBomb();
     }
 
@@ -71,15 +74,12 @@ public class Player : MonoBehaviour
 
         Vector3 position = new Vector3(positionX, bombPositionY, positionZ);
 
-        Instantiate(bombPrefab, position, Quaternion.identity);
-        UpdatePlacedBombs(true);
+        placedBombs.Add(Instantiate(bombPrefab, position, Quaternion.identity));
+        placedBombs[placedBombs.Count - 1].GetComponent<Bomb>().onExplotion += OnBombExplotion;
     }
 
-    void UpdatePlacedBombs(bool bombPlaced)
+    void OnBombExplotion()
     {
-        if (bombPlaced)
-            placedBombs++;
-        else
-            placedBombs--;
+        placedBombs.RemoveAt(0);
     }
 }
