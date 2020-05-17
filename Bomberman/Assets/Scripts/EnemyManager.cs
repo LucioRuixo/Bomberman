@@ -23,11 +23,15 @@ public class EnemyManager : MonoBehaviour
     {
         Vector3 position;
 
+        Quaternion rotation;
+
         for (int i = 0; i < enemyAmount; i++)
         {
             position = layoutManager.GetRandomPositionInGrid(positionY);
 
-            Instantiate(enemyPrefab, position, Quaternion.identity, transform);
+            rotation = Quaternion.Euler(Enemy.GetRandomDirection());
+
+            Instantiate(enemyPrefab, position, rotation, transform);
         }
     }
 }

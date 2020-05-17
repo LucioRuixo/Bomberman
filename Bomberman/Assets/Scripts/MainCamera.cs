@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class MainCamera : MonoBehaviour
 {
     public Vector3 positionOffset;
     public Vector3 rotation;

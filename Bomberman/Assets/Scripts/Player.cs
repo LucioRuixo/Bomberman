@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         lives = 2;
         maxPlaceableBombs = 1;
 
-        movementSpeed = 0.05f;
+        movementSpeed = 15f;
         bombPositionY = 0.75f;
 
         rigidbody = GetComponent<Rigidbody>();
@@ -65,10 +65,10 @@ public class Player : MonoBehaviour
         movement = Vector3.zero;
 
         if (Input.GetButton("Horizontal"))
-            movement.x += Input.GetAxisRaw("Horizontal") * movementSpeed;
+            movement.x += Input.GetAxisRaw("Horizontal") * movementSpeed * Time.deltaTime;
 
         if (Input.GetButton("Vertical"))
-            movement.z += Input.GetAxisRaw("Vertical") * movementSpeed;
+            movement.z += Input.GetAxisRaw("Vertical") * movementSpeed * Time.deltaTime;
 
         if (Input.GetButtonDown("Place Bomb") && placedBombs.Count < maxPlaceableBombs)
             PlaceBomb();
