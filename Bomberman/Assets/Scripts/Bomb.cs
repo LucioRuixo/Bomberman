@@ -42,7 +42,7 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
             this.gameObject.GetComponent<SphereCollider>().isTrigger = false;
     }
 }

@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    int lives;
     int maxPlaceableBombs;
 
     float movementSpeed;
     float bombPositionY;
 
+    Vector3 initialPosition;
     Vector3 movement;
 
     new Rigidbody rigidbody;
@@ -23,8 +24,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        lives = 2;
         maxPlaceableBombs = 1;
-        bombRange = 1;
 
         movementSpeed = 0.05f;
         bombPositionY = 0.75f;
@@ -33,7 +34,13 @@ public class Player : MonoBehaviour
 
         placedBombs = new List<GameObject>();
 
+        bombRange = 1;
+
         positionY = 1f;
+
+        initialPosition = new Vector3(0f, positionY, 0f);
+
+        Explosion.onDamageDealtToPlayer += OnDamageReceived;
     }
 
     void FixedUpdate()
@@ -51,6 +58,8 @@ public class Player : MonoBehaviour
 
         if (transform.rotation != Quaternion.identity)
             transform.rotation = Quaternion.identity;
+
+        Debug.Log(lives);
     }
 
     void CheckInput()
@@ -81,5 +90,17 @@ public class Player : MonoBehaviour
     void OnBombExplosion()
     {
         placedBombs.RemoveAt(0);
+    }
+
+    void OnDamageReceived()
+    {
+        lives--;
+
+        ResetPosition();
+    }
+
+    void ResetPosition()
+    {
+        transform.position = initialPosition;
     }
 }

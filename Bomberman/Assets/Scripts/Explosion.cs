@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    bool damageDealtToPlayer;
+
     double explosionTimer;
     double explosionTimerTarget;
 
@@ -13,14 +14,22 @@ public class Explosion : MonoBehaviour
 
     GameObject explosionColumnPrefab;
 
+    [HideInInspector] public bool playerInsideExplosionArea;
+
+    public static event Action onDamageDealtToPlayer;
+
     void Start()
     {
+        damageDealtToPlayer = false;
+
         explosionTimer = 0d;
         explosionTimerTarget = 1d;
 
         layoutManager = GameObject.Find("Layout Manager").GetComponent<LayoutManager>();
 
         player = GameObject.Find("Player").GetComponent<Player>();
+
+        playerInsideExplosionArea = false;
 
         InitializeExplosionColumns();
     }
@@ -31,6 +40,12 @@ public class Explosion : MonoBehaviour
 
         if (explosionTimer >= explosionTimerTarget)
             Destroy(this.gameObject);
+
+        if (playerInsideExplosionArea && !damageDealtToPlayer)
+        {
+            onDamageDealtToPlayer();
+            damageDealtToPlayer = true;
+        }
     }
 
     void InitializeExplosionColumns()

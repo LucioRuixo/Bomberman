@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ExplosionColumn : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            GetComponentInParent<Explosion>().playerInsideExplosionArea = true;
+        }
     }
 }
