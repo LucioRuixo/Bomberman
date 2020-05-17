@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         maxPlaceableBombs = 1;
-        bombRange = 1;
+        bombRange = 3;
 
         movementSpeed = 0.05f;
         bombPositionY = 0.75f;
@@ -75,10 +75,10 @@ public class Player : MonoBehaviour
         Vector3 position = new Vector3(positionX, bombPositionY, positionZ);
 
         placedBombs.Add(Instantiate(bombPrefab, position, Quaternion.identity));
-        placedBombs[placedBombs.Count - 1].GetComponent<Bomb>().onExplotion += OnBombExplotion;
+        placedBombs[placedBombs.Count - 1].GetComponent<Bomb>().onExplosion += OnBombExplosion;
     }
 
-    void OnBombExplotion()
+    void OnBombExplosion()
     {
         placedBombs.RemoveAt(0);
     }

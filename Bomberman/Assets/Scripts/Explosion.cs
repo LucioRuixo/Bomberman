@@ -2,38 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explotion : MonoBehaviour
+public class Explosion : MonoBehaviour
 {
-    double explotionTimer;
-    double explotionTimerTarget;
+    double explosionTimer;
+    double explosionTimerTarget;
 
     LayoutManager layoutManager;
 
     Player player;
 
-    GameObject explotionColumnPrefab;
+    GameObject explosionColumnPrefab;
 
     void Start()
     {
-        explotionTimer = 0d;
-        explotionTimerTarget = 2d;
+        explosionTimer = 0d;
+        explosionTimerTarget = 1d;
 
         layoutManager = GameObject.Find("Layout Manager").GetComponent<LayoutManager>();
 
         player = GameObject.Find("Player").GetComponent<Player>();
 
-        InitializeExplotionColumns();
+        InitializeExplosionColumns();
     }
 
     void Update()
     {
-        explotionTimer += Time.deltaTime;
+        explosionTimer += Time.deltaTime;
 
-        if (explotionTimer >= explotionTimerTarget)
+        if (explosionTimer >= explosionTimerTarget)
             Destroy(this.gameObject);
     }
 
-    void InitializeExplotionColumns()
+    void InitializeExplosionColumns()
     {
         Vector2Int left;
         Vector2Int right;
@@ -41,7 +41,7 @@ public class Explotion : MonoBehaviour
         Vector2Int down;
 
 
-        Instantiate(layoutManager.explotionColumnPrefab, transform.position, Quaternion.identity, transform);
+        Instantiate(layoutManager.explosionColumnPrefab, transform.position, Quaternion.identity, transform);
 
         for (int i = 1; i <= player.bombRange; i++)
         {
@@ -69,7 +69,9 @@ public class Explotion : MonoBehaviour
                 {
                     position = new Vector3(direction.x, layoutManager.columnPositionY, direction.y);
 
-                    Instantiate(layoutManager.explotionColumnPrefab, position, Quaternion.identity, transform);
+                    Instantiate(layoutManager.explosionColumnPrefab, position, Quaternion.identity, transform);
+
+                    layoutManager.CheckColumnExplosion(new Vector3(direction.x, layoutManager.columnPositionY, direction.y));
                 }
             }
         }
@@ -81,7 +83,9 @@ public class Explotion : MonoBehaviour
                 {
                     position = new Vector3(direction.x, layoutManager.columnPositionY, direction.y);
 
-                    Instantiate(layoutManager.explotionColumnPrefab, position, Quaternion.identity, transform);
+                    Instantiate(layoutManager.explosionColumnPrefab, position, Quaternion.identity, transform);
+
+                    layoutManager.CheckColumnExplosion(new Vector3(direction.x, layoutManager.columnPositionY, direction.y));
                 }
             }
         }

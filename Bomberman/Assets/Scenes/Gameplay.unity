@@ -480,14 +480,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c698fb6693ae6c4580819814dfa97ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstCellPositionX: 0
-  firstCellPositionZ: 0
+  gridSideLenght: 0
+  columnPositionY: 0
   gameManager: {fileID: 887273702}
   columnPrefab: {fileID: 3563532790830038886, guid: 461c98e9750f28341a99a99c3d436589,
     type: 3}
   destroyableColumnPrefab: {fileID: 6806193810133061966, guid: a3a0a413f01212a4eb18d8c2a2cf07d6,
     type: 3}
-  explotionColumnPrefab: {fileID: 6806193810133061966, guid: dac73be54e534644d831a6bbfece042d,
+  explosionColumnPrefab: {fileID: 6806193810133061966, guid: dac73be54e534644d831a6bbfece042d,
     type: 3}
   columnParent: {fileID: 27249463}
   destroyableColumnParent: {fileID: 704914422}
@@ -813,6 +813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbecfa0e0e4330a4d9be9cea84acbeeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bombRange: 0
   positionY: 0
   bombPrefab: {fileID: 6500156056148818698, guid: ce77d767baaef46468072f54acf2bf7d,
     type: 3}

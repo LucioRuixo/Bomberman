@@ -5,38 +5,38 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    double explotionTimer;
-    double explotionTimerTarget;
+    double explosionTimer;
+    double explosionTimerTarget;
 
-    float explotionPositionY;
+    float explosionPositionY;
 
-    public event Action onExplotion;
+    public event Action onExplosion;
 
     void Start()
     {
-        explotionTimer = 0d;
-        explotionTimerTarget = 3d;
+        explosionTimer = 0d;
+        explosionTimerTarget = 2d;
 
-        explotionPositionY = 1f;
+        explosionPositionY = 1f;
 
-        onExplotion += Explode;
+        onExplosion += Explode;
     }
 
     void Update()
     {
-        explotionTimer += Time.deltaTime;
+        explosionTimer += Time.deltaTime;
 
-        if (explotionTimer >= explotionTimerTarget)
-            onExplotion();
+        if (explosionTimer >= explosionTimerTarget)
+            onExplosion();
     }
 
     void Explode()
     {
-        GameObject explotion = new GameObject("Explotion");
-        explotion.transform.position = new Vector3(transform.position.x, explotionPositionY, transform.position.z);
-        explotion.AddComponent<Explotion>();
+        GameObject explosion = new GameObject("Explosion");
+        explosion.transform.position = new Vector3(transform.position.x, explosionPositionY, transform.position.z);
+        explosion.AddComponent<Explosion>();
 
-        onExplotion -= Explode;
+        onExplosion -= Explode;
         Destroy(this.gameObject);
     }
 

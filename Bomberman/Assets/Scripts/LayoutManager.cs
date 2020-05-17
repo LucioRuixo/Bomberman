@@ -9,7 +9,7 @@ public class LayoutManager : MonoBehaviour
         Empty,
         Column,
         DestroyableColumn,
-        ExplotionColumn
+        ExplosionColumn
     }
 
     int columnsPerSide;
@@ -25,7 +25,7 @@ public class LayoutManager : MonoBehaviour
 
     public GameObject columnPrefab;
     public GameObject destroyableColumnPrefab;
-    public GameObject explotionColumnPrefab;
+    public GameObject explosionColumnPrefab;
 
     public Transform columnParent;
     public Transform destroyableColumnParent;
@@ -120,8 +120,14 @@ public class LayoutManager : MonoBehaviour
         return position;
     }
 
-    public void DestroyDestroyableColumn()
+    public void CheckColumnExplosion(Vector3 explosionPosition)
     {
+        grid[(int)explosionPosition.x, (int)-explosionPosition.z] = cellStates.Empty;
 
+        foreach (Transform child in destroyableColumnParent.GetComponentInChildren<Transform>())
+        {
+            if (child.position == explosionPosition)
+                Destroy(child.gameObject);
+        }
     }
 }

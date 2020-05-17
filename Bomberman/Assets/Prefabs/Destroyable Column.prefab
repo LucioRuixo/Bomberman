@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6806193810133061953}
   m_Layer: 0
   m_Name: Destroyable Column
-  m_TagString: Untagged
+  m_TagString: DestroyableColumn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
