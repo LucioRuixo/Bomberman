@@ -20,7 +20,5 @@ public class GameManager : MonoBehaviour
             playerWon = true;
         else
             playerWon = false;
-
-        Debug.Log("Game over, " + playerWon);
     }
 }

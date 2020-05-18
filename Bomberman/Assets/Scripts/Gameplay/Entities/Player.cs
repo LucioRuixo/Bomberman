@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
         if (transform.rotation != Quaternion.identity)
             transform.rotation = Quaternion.identity;
 
-        if (lives <= 0)
+        if (lives <= 0 && death != null)
             death();
     }
 

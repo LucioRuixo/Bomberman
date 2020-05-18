@@ -7,7 +7,9 @@ public class LevelDoor : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && EnemyManager.enemyAmount <= 0)
+        bool winningConditionAchieved = other.gameObject.CompareTag("Player") && EnemyManager.enemyAmount <= 0;
+
+        if (winningConditionAchieved && playerReachedDoor != null)
             playerReachedDoor();
     }
 }

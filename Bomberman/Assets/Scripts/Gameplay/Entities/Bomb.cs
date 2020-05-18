@@ -32,7 +32,7 @@ public class Bomb : MonoBehaviour
     {
         explosionTimer += Time.deltaTime;
 
-        if (explosionTimer >= explosionTimerTarget)
+        if (explosionTimer >= explosionTimerTarget && explosion != null)
             explosion();
     }
 

@@ -43,13 +43,13 @@ public class Explosion : MonoBehaviour
         if (explosionTimer >= explosionTimerTarget)
             Destroy(this.gameObject);
 
-        if (shouldDealDamageToPlayer && !alreadyDamagedPlayer)
+        if (shouldDealDamageToPlayer && !alreadyDamagedPlayer && damageDealtToPlayer != null)
         {
             damageDealtToPlayer();
             alreadyDamagedPlayer = true;
         }
 
-        if (shouldDealDamageToEnemy)
+        if (shouldDealDamageToEnemy && damageDealtToEnemy != null)
         {
             damageDealtToEnemy();
             shouldDealDamageToEnemy = false;
