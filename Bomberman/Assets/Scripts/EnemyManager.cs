@@ -6,7 +6,8 @@ public class EnemyManager : MonoBehaviour
 {
     float positionY;
 
-    public int enemyAmount;
+    [HideInInspector] public static int enemyAmount;
+    public int enemies;
 
     public LayoutManager layoutManager;
 
@@ -14,24 +15,35 @@ public class EnemyManager : MonoBehaviour
 
     void Start()
     {
+        enemyAmount = 0;
+
         positionY = 1f;
 
         InitializeEnemies();
+
+        Explosion.onDamageDealtToEnemy += OnEnemyDeath;
     }
-    
+
     void InitializeEnemies()
     {
         Vector3 position;
 
         Quaternion rotation;
 
-        for (int i = 0; i < enemyAmount; i++)
+        for (int i = 0; i < enemies; i++)
         {
             position = layoutManager.GetRandomPositionInGrid(positionY);
 
             rotation = Quaternion.Euler(Enemy.GetRandomDirection());
 
             Instantiate(enemyPrefab, position, rotation, transform);
+
+            enemyAmount++;
         }
+    }
+
+    void OnEnemyDeath()
+    {
+        enemyAmount--;
     }
 }

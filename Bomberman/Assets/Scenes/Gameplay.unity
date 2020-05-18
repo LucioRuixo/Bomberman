@@ -815,6 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbecfa0e0e4330a4d9be9cea84acbeeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lives: 0
   bombRange: 0
   positionY: 0
   bombPrefab: {fileID: 6500156056148818698, guid: ce77d767baaef46468072f54acf2bf7d,
@@ -1114,7 +1115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704c84caecde2704cb94de39bf520eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAmount: 10
+  enemies: 10
   layoutManager: {fileID: 549438826}
   enemyPrefab: {fileID: 1423596948669228854, guid: 8e2396a38d5cf444e92828b8f7fd393f,
     type: 3}
