@@ -11,7 +11,7 @@ public class ExplosionColumn : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Explosion.onDamageDealtToEnemy += other.GetComponent<Enemy>().OnDamageReceived;
+            Explosion.damageDealtToEnemy += other.GetComponent<Enemy>().OnDamageReceived;
 
             GetComponentInParent<Explosion>().shouldDealDamageToEnemy = true;
         }

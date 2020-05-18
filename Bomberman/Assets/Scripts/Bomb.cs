@@ -10,7 +10,7 @@ public class Bomb : MonoBehaviour
 
     float explosionPositionY;
 
-    public event Action onExplosion;
+    public event Action explosion;
 
     void Start()
     {
@@ -19,7 +19,7 @@ public class Bomb : MonoBehaviour
 
         explosionPositionY = 1f;
 
-        onExplosion += Explode;
+        explosion += Explode;
     }
 
     void OnTriggerExit(Collider other)
@@ -33,16 +33,16 @@ public class Bomb : MonoBehaviour
         explosionTimer += Time.deltaTime;
 
         if (explosionTimer >= explosionTimerTarget)
-            onExplosion();
+            explosion();
     }
 
     void Explode()
     {
-        GameObject explosion = new GameObject("Explosion");
-        explosion.transform.position = new Vector3(transform.position.x, explosionPositionY, transform.position.z);
-        explosion.AddComponent<Explosion>();
+        GameObject newExplosion = new GameObject("Explosion");
+        newExplosion.transform.position = new Vector3(transform.position.x, explosionPositionY, transform.position.z);
+        newExplosion.AddComponent<Explosion>();
 
-        onExplosion -= Explode;
+        explosion -= Explode;
         Destroy(this.gameObject);
     }
 }

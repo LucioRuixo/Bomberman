@@ -5,16 +5,18 @@ public class GameManager : MonoBehaviour
 {
     bool playerWon;
 
-    public Player player;
-
     void Start()
     {
         LevelDoor.playerReachedDoor += GameOver;
+        Player.death += GameOver;
     }
 
     void GameOver()
     {
-        if (player.lives > 0)
+        LevelDoor.playerReachedDoor -= GameOver;
+        Player.death -= GameOver;
+
+        if (Player.lives > 0)
             playerWon = true;
         else
             playerWon = false;

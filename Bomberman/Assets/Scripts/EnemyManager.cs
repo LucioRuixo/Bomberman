@@ -21,7 +21,7 @@ public class EnemyManager : MonoBehaviour
 
         InitializeEnemies();
 
-        Explosion.onDamageDealtToEnemy += OnEnemyDeath;
+        Explosion.damageDealtToEnemy += OnEnemyDeath;
     }
 
     void InitializeEnemies()

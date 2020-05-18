@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    bool damageDealtToPlayer;
+    bool alreadyDamagedPlayer;
 
     double explosionTimer;
     double explosionTimerTarget;
@@ -17,12 +17,12 @@ public class Explosion : MonoBehaviour
     [HideInInspector] public bool shouldDealDamageToPlayer;
     [HideInInspector] public bool shouldDealDamageToEnemy;
 
-    public static event Action onDamageDealtToPlayer;
-    public static event Action onDamageDealtToEnemy;
+    public static event Action damageDealtToPlayer;
+    public static event Action damageDealtToEnemy;
 
     void Start()
     {
-        damageDealtToPlayer = false;
+        alreadyDamagedPlayer = false;
 
         explosionTimer = 0d;
         explosionTimerTarget = 1d;
@@ -43,15 +43,15 @@ public class Explosion : MonoBehaviour
         if (explosionTimer >= explosionTimerTarget)
             Destroy(this.gameObject);
 
-        if (shouldDealDamageToPlayer && !damageDealtToPlayer)
+        if (shouldDealDamageToPlayer && !alreadyDamagedPlayer)
         {
-            onDamageDealtToPlayer();
-            damageDealtToPlayer = true;
+            damageDealtToPlayer();
+            alreadyDamagedPlayer = true;
         }
 
         if (shouldDealDamageToEnemy)
         {
-            onDamageDealtToEnemy();
+            damageDealtToEnemy();
             shouldDealDamageToEnemy = false;
         }
     }

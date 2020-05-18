@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     EnemyManager enemyManager;
 
-    public static event Action onDamageDealtToPlayer;
+    public static event Action damageDealtToPlayer;
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-            onDamageDealtToPlayer();
+            damageDealtToPlayer();
     }
 
     void Update()
@@ -169,7 +169,7 @@ public class Enemy : MonoBehaviour
 
     public void OnDamageReceived()
     {
-        Explosion.onDamageDealtToEnemy -= OnDamageReceived;
+        Explosion.damageDealtToEnemy -= OnDamageReceived;
 
         Destroy(this.gameObject);
     }

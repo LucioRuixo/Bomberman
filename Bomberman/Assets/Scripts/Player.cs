@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -15,12 +16,14 @@ public class Player : MonoBehaviour
 
     List<GameObject> placedBombs;
 
-    [HideInInspector] public int lives;
+    [HideInInspector] public static int lives;
     [HideInInspector] public int bombRange;
 
     [HideInInspector] public float positionY;
 
     public GameObject bombPrefab;
+
+    public static event Action death;
 
     void Start()
     {
@@ -40,8 +43,8 @@ public class Player : MonoBehaviour
 
         initialPosition = new Vector3(0f, positionY, 0f);
 
-        Explosion.onDamageDealtToPlayer += OnDamageReceived;
-        Enemy.onDamageDealtToPlayer += OnDamageReceived;
+        Explosion.damageDealtToPlayer += OnDamageReceived;
+        Enemy.damageDealtToPlayer += OnDamageReceived;
     }
 
     void FixedUpdate()
@@ -59,6 +62,9 @@ public class Player : MonoBehaviour
 
         if (transform.rotation != Quaternion.identity)
             transform.rotation = Quaternion.identity;
+
+        if (lives <= 0)
+            death();
     }
 
     void CheckInput()
@@ -83,7 +89,7 @@ public class Player : MonoBehaviour
         Vector3 position = new Vector3(positionX, bombPositionY, positionZ);
 
         placedBombs.Add(Instantiate(bombPrefab, position, Quaternion.identity));
-        placedBombs[placedBombs.Count - 1].GetComponent<Bomb>().onExplosion += OnBombExplosion;
+        placedBombs[placedBombs.Count - 1].GetComponent<Bomb>().explosion += OnBombExplosion;
     }
 
     void OnBombExplosion()
