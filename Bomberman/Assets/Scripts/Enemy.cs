@@ -56,15 +56,20 @@ public class Enemy : MonoBehaviour
         bool wallInProximity = false;
         bool columnInProximity = false;
         bool destroyableColumnInProximity = false;
+        bool bombInProximity = false;
         bool enemyInProximity = false;
 
+        float raycastPositionYOffset = 0.25f;
+        float raycastPositionY = transform.position.y - raycastPositionYOffset;
+
         Vector3 rotation;
+        Vector3 raycastPosition = new Vector3(transform.position.x, raycastPositionY, transform.position.z);
 
         Ray ray;
 
         RaycastHit raycastHit;
 
-        ray = new Ray(transform.position, transform.forward);
+        ray = new Ray(raycastPosition, transform.forward);
         Physics.Raycast(ray, out raycastHit, rayDistance);
         Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.yellow);
 
@@ -73,10 +78,11 @@ public class Enemy : MonoBehaviour
             wallInProximity = raycastHit.transform.gameObject.CompareTag("Wall");
             columnInProximity = raycastHit.transform.gameObject.CompareTag("Column");
             destroyableColumnInProximity = raycastHit.transform.gameObject.CompareTag("DestroyableColumn");
+            bombInProximity = raycastHit.transform.gameObject.CompareTag("Bomb");
             enemyInProximity = raycastHit.transform.gameObject.CompareTag("Enemy");
         }
 
-        if (wallInProximity || columnInProximity || destroyableColumnInProximity)
+        if (wallInProximity || columnInProximity || destroyableColumnInProximity || bombInProximity)
         {
             rotation = GetSidewaysTurn();
 

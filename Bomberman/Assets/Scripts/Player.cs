@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    int lives;
     int maxPlaceableBombs;
 
     float movementSpeed;
@@ -16,6 +15,7 @@ public class Player : MonoBehaviour
 
     List<GameObject> placedBombs;
 
+    [HideInInspector] public int lives;
     [HideInInspector] public int bombRange;
 
     [HideInInspector] public float positionY;

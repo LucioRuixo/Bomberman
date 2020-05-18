@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LayoutManager : MonoBehaviour
@@ -14,6 +13,8 @@ public class LayoutManager : MonoBehaviour
     int columnsPerSide;
     int destroyableColumnsAmount;
 
+    List<GameObject> destructableColumns;
+
     [HideInInspector] public int gridSideLenght;
 
     [HideInInspector] public float columnPositionY;
@@ -25,6 +26,7 @@ public class LayoutManager : MonoBehaviour
     public GameObject columnPrefab;
     public GameObject destroyableColumnPrefab;
     public GameObject explosionColumnPrefab;
+    public GameObject levelDoorPrefab;
 
     public Transform columnParent;
     public Transform destroyableColumnParent;
@@ -34,6 +36,8 @@ public class LayoutManager : MonoBehaviour
         columnsPerSide = gridSideLenght / 2;
         destroyableColumnsAmount = 100;
 
+        destructableColumns = new List<GameObject>();
+
         gridSideLenght = 23;
 
         columnPositionY = 1f;
@@ -42,6 +46,7 @@ public class LayoutManager : MonoBehaviour
 
         InitializeColumns();
         InitializeDestroyableColumns();
+        InitializeLevelDoor();
     }
 
     void InitializeColumns()
@@ -75,8 +80,17 @@ public class LayoutManager : MonoBehaviour
         {
             currentColumnPosition = GetRandomPositionInGrid(columnPositionY);
 
-            Instantiate(destroyableColumnPrefab, currentColumnPosition, Quaternion.identity, destroyableColumnParent);
+            destructableColumns.Add(Instantiate(destroyableColumnPrefab, currentColumnPosition, Quaternion.identity, destroyableColumnParent));
         }
+    }
+
+    void InitializeLevelDoor()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, destructableColumns.Count);
+
+        Vector3 position = destructableColumns[randomIndex].transform.position;
+
+        Instantiate(levelDoorPrefab, position, Quaternion.identity, transform);
     }
 
     public Vector3 GetRandomPositionInGrid(float positionY)
