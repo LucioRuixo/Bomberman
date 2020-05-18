@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 
     public GameObject bombPrefab;
 
+    public static event Action damageReceived;
     public static event Action death;
 
     void Start()
@@ -102,6 +103,9 @@ public class Player : MonoBehaviour
         lives--;
 
         ResetPosition();
+
+        if (damageReceived != null)
+            damageReceived();
     }
 
     void ResetPosition()

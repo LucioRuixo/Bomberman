@@ -13,6 +13,8 @@ public class LayoutManager : MonoBehaviour
     int columnsPerSide;
     int destroyableColumnsAmount;
 
+    float levelDoorPositionY;
+
     List<GameObject> destructableColumns;
 
     [HideInInspector] public int gridSideLenght;
@@ -35,6 +37,8 @@ public class LayoutManager : MonoBehaviour
     {
         columnsPerSide = gridSideLenght / 2;
         destroyableColumnsAmount = 100;
+
+        levelDoorPositionY = 0.525f;
 
         destructableColumns = new List<GameObject>();
 
@@ -88,7 +92,8 @@ public class LayoutManager : MonoBehaviour
     {
         int randomIndex = UnityEngine.Random.Range(0, destructableColumns.Count);
 
-        Vector3 position = destructableColumns[randomIndex].transform.position;
+        Vector3 columnPosition = destructableColumns[randomIndex].transform.position;
+        Vector3 position = new Vector3(columnPosition.x, levelDoorPositionY, columnPosition.z);
 
         Instantiate(levelDoorPrefab, position, Quaternion.identity, transform);
     }

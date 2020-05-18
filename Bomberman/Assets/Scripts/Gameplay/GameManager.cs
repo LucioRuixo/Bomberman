@@ -3,22 +3,36 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    bool playerWon;
+    public GameObject player;
+    public GameObject layoutManager;
+    public GameObject enemyManager;
+
+    public static event Action<bool> gameOver;
 
     void Start()
     {
-        LevelDoor.playerReachedDoor += GameOver;
-        Player.death += GameOver;
+        LevelDoor.playerReachedDoor += OnGameOverConditions;
+        Player.death += OnGameOverConditions;
     }
 
-    void GameOver()
+    void OnGameOverConditions()
     {
-        LevelDoor.playerReachedDoor -= GameOver;
-        Player.death -= GameOver;
+        LevelDoor.playerReachedDoor -= OnGameOverConditions;
+        Player.death -= OnGameOverConditions;
+
+        player.SetActive(false);
+        layoutManager.SetActive(false);
+        enemyManager.SetActive(false);
 
         if (Player.lives > 0)
-            playerWon = true;
+        {
+            if (gameOver != null)
+                gameOver(true);
+        }
         else
-            playerWon = false;
+        {
+            if (gameOver != null)
+                gameOver(false);
+        }
     }
 }
